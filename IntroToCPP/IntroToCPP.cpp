@@ -2,19 +2,94 @@
 //
 
 #include <iostream>
-
-int main()
+#include <string>
+#include <vector>
+#include <fstream>
+class Student
 {
-    std::cout << "Hello World!\n";
-}
+	private:
+		std::string m_firstName = "";
+		std::string m_lastName = "";
+		int m_year;
+		int m_SID;
+	public:
+		Student(){}
+		Student(const std::string &firstName,
+			const std::string &lastName,
+			const int year,
+			const int SID)
+			:	m_firstName(firstName),
+				m_lastName(lastName),
+				m_year(year),
+				m_SID(SID)
+		{}
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
+		void PrintInfo() {
+			std::cout << m_firstName << " " << m_lastName << " year is " << m_year << " SID is " << m_SID << "\n";
+		}
+		
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+};
+
+class Course
+{
+	private:
+		std::vector<Student> m_students;
+		std::string m_name;
+
+	public:
+		Course(const std::string &name) 
+			: m_name(name)
+		{
+
+		}
+		void  addStudent(const Student &s)
+		{
+			m_students.push_back(s);
+		}
+
+		std::vector<Student> getStudents() 
+		{
+			return m_students;
+		}
+
+		void printCourse() {
+			for (auto &student : m_students)
+			{
+				student.PrintInfo();
+			}
+		}
+
+		void addStudentFromFile(const std::string &fileName) {
+			std::ifstream fIn(fileName);
+
+			std::string first, last;
+			int id, grade;
+			while (fIn)
+			{
+				fIn >> first >> last >> id >> grade;
+				addStudent(Student(first, last, id, grade));
+			}
+		}
+
+};
+
+
+//int main()
+//{
+//	//Course c("COMP4300");
+//	//
+//	//Student student1("Dit","Dejphachon",2020, 61317);
+//	//Student student2("Dit1","Dejphachon2",2020, 61317);
+//	//
+//	//c.addStudent(student1);
+//	//c.addStudent(student2);
+//	//
+//	//c.printCourse();
+//
+//	Course cFile("classFile");
+//	cFile.addStudentFromFile("classFile.txt");
+//	cFile.printCourse();
+//	
+//}
+
